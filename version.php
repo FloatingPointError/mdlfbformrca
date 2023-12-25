@@ -26,6 +26,6 @@ defined('MOODLE_INTERNAL') || die();
 
 $plugin->component    = 'mod_fbformrca';
 $plugin->release      = '1.0';
-$plugin->version      = 2023122501;
+$plugin->version      = 2023122503;
 $plugin->requires     = 2022112808.00;
 $plugin->maturity     = MATURITY_ALPHA;
