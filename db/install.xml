@@ -24,5 +24,45 @@
         <INDEX NAME="course" UNIQUE="false" FIELDS="course"/>
       </INDEXES>
     </TABLE>
+    <TABLE NAME="fbformrcaskills" COMMENT="Skills defined per programme are saved here, to be used on the settings page.">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="skill" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Describes the skill (softskill/hardskill)"/>
+        <FIELD NAME="description" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Describes the skill"/>
+        <FIELD NAME="programme" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Programme or course."/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="fbformrcafeedback" COMMENT="Written feedback given by teachers, or self-evaluation done by students.">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="instanceid" TYPE="int" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="FK to the instance of fbformrca"/>
+        <FIELD NAME="usermodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="studentid" TYPE="int" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="id of the student"/>
+        <FIELD NAME="selfreflection" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="is this is a self reflection y/n? Default is false. Most feedbacks are from the teachers."/>
+        <FIELD NAME="feedback" TYPE="binary" NOTNULL="true" SEQUENCE="false" COMMENT="Written feedback by the teacher. Content will be hashed."/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="fk_instanceid" TYPE="foreign" FIELDS="instanceid" REFTABLE="fbformrca" REFFIELDS="id" COMMENT="FK for the instanceid"/>
+        <KEY NAME="usermodified" TYPE="foreign" FIELDS="usermodified" REFTABLE="user" REFFIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="fbformrca_skillsinstance" COMMENT="Lists the skills used per instance.">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="instanceid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Referencing the id of the fbformrca instance"/>
+        <FIELD NAME="skillsid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="Referencing the id of the skills from the skills table"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="fk_instanceid" TYPE="foreign" FIELDS="instanceid" REFTABLE="fbformrca" REFFIELDS="id" COMMENT="The id of the fbformrca instance"/>
+        <KEY NAME="fk_skillsid" TYPE="foreign-unique" FIELDS="skillsid" REFTABLE="fbformrcaskills" REFFIELDS="id" COMMENT="Referencing the id of the the fbformrcaskills table"/>
+      </KEYS>
+    </TABLE>
   </TABLES>
 </XMLDB>

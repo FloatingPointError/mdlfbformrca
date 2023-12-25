@@ -52,4 +52,3 @@ $PAGE->set_heading(format_string($course->fullname));
 echo $OUTPUT->header();
 
 echo $OUTPUT->footer();
-// Some comment to be deleted, but for a test commit.
