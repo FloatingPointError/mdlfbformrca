@@ -21,7 +21,7 @@
  *
  * @package    mod_fbformrca
  * @category   access
- * @copyright  2023 YOUR NAME <your@email.com>
+ * @copyright  2023 Michel Labruyère <mlabrudev@proton.me>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
