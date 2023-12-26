@@ -174,6 +174,37 @@ function xmldb_fbformrca_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2023122600, 'fbformrca');
     }
 
+    if ($oldversion < 2023122601) {
+
+        // Define table fbformrcaskillgrades to be created.
+        $table = new xmldb_table('fbformrcaskillgrades');
+
+        // Adding fields to table fbformrcaskillgrades.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('instanceid', XMLDB_TYPE_INTEGER, '20', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('usermodified', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('studentid', XMLDB_TYPE_INTEGER, '20', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('selfreflection', XMLDB_TYPE_INTEGER, '1', null, null, null, '0');
+        $table->add_field('skillid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('score', XMLDB_TYPE_INTEGER, '10', null, null, null, '0');
+        $table->add_field('timecreated', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('timemodified', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+
+        // Adding keys to table fbformrcaskillgrades.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);
+        $table->add_key('usermodified', XMLDB_KEY_FOREIGN, ['usermodified'], 'user', ['id']);
+        $table->add_key('fk_skillid', XMLDB_KEY_FOREIGN, ['skillid'], 'fbformrcaskills', ['id']);
+        $table->add_key('fk_instanceid', XMLDB_KEY_FOREIGN, ['instanceid'], 'fbformrca', ['id']);
+
+        // Conditionally launch create table for fbformrcaskillgrades.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+
+        // Fbformrca savepoint reached.
+        upgrade_mod_savepoint(true, 2023122601, 'fbformrca');
+    }
+
 
 
 

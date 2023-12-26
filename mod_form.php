@@ -48,6 +48,33 @@ class mod_fbformrca_mod_form extends moodleform_mod {
             $this->standard_intro_elements();
         }
 
+        // Instance settings.
+        $mform->addElement('header', 'feedbackformrcasettings', get_string('feedbackformrcasettings', 'fbformrca'));
+
+        $mform->addElement('checkbox', 'written_feedback', get_string('feedback', 'fbformrca'));
+        $mform->addHelpButton('written_feedback', 'feedback', 'fbformrca');
+
+        $mform->addElement('checkbox', 'self_reflection', get_string('self_reflection', 'fbformrca'));
+        $mform->setDefault('self_reflection', 1);
+
+        // Add graphs yes or no?
+        $mform->addElement('checkbox', 'graphs', get_string('graphs', 'fbformrca'));
+        $mform->setDefault('graphs', 1);
+        $mform->addHelpButton('graphs', 'graphs', 'fbformrca');
+
+        // Show scores in graphs?
+        $mform->addElement('checkbox', 'show_scores', get_string('scores', 'fbformrca'));
+        $mform->setDefault('show_scores', 0);
+        $mform->addHelpButton('show_scores', 'scores', 'fbformrca');
+
+
+        // The following goes in another table: fbformrca_skillsinstance. Fix this later...
+        // The skillset for the select element will be loaded later from the fbformrcaskills table.
+        // TODO: fix this in the model and controller.
+        $mform->addElement('select', 'skillsid', get_string('skills', 'fbformrca'), ['1' => '1', '2' => '2', '3' => '3']);
+        $mform->addHelpButton('skillsid', 'skills', 'fbformrca');
+        $mform->addRule('skillsid', null, 'required', null, 'client');
+
         // Other standard elements that are displayed in their own fieldsets.
         $this->standard_grading_coursemodule_elements();
         $this->standard_coursemodule_elements();

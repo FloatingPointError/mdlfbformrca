@@ -27,7 +27,17 @@ defined('MOODLE_INTERNAL') || die();
 
 $string['fbformrca:addinstance'] = 'Add a new Feedback Form RCA';
 $string['fbformrca:view'] = 'View Feedback Form RCA';
+$string['feedback'] = 'Written feedback';
+$string['feedback_help'] = 'Do you want to provide written feedback?';
+$string['feedbackformrcasettings'] = 'General settings.';
+$string['graphs'] = 'Graphs';
+$string['graphs_help'] = 'Graphs help: would you like to show results in a graph? (non-written feedback)';
 $string['modulename'] = 'Feedback Form RCA';
 $string['modulenameplural'] = 'Feedback Forms RCA';
 $string['pluginadministration'] = 'Feedback Form RCA administration';
 $string['pluginname'] = 'Feedback Form RCA';
+$string['scores'] = 'Show scores';
+$string['scores_help'] = 'Scores help: do you want to include the scors in the graph? Default is set to no.';
+$string['self_reflection'] = 'Self reflection';
+$string['skills'] = 'Skills';
+$string['skills_help'] = 'If let empty no skills are selected. Else select your programme or a corresponding skillset';
