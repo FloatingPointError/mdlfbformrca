@@ -137,6 +137,44 @@ function xmldb_fbformrca_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2023122506, 'fbformrca');
     }
 
+    if ($oldversion < 2023122600) {
+
+        // Define table fbformrcaskillgrades to be created.
+        $table = new xmldb_table('fbformrcaskillgrades');
+
+        // Adding fields to table fbformrcaskillgrades.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('instanceid', XMLDB_TYPE_INTEGER, '20', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('usermodified', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('studentid', XMLDB_TYPE_INTEGER, '20', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('selfreflection', XMLDB_TYPE_INTEGER, '1', null, null, null, '0');
+        $table->add_field('skillid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('score', XMLDB_TYPE_INTEGER, '10', null, null, null, '0');
+        $table->add_field('timecreated', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('timemodified', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+
+        // Adding keys to table fbformrcaskillgrades.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);
+        $table->add_key('usermodified', XMLDB_KEY_FOREIGN, ['usermodified'], 'user', ['id']);
+        $table->add_key('fk_skillid', XMLDB_KEY_FOREIGN, ['skillid'], 'fbformrcaskills', ['id']);
+        $table->add_key('fk_instanceid', XMLDB_KEY_FOREIGN, ['instanceid'], 'fbformrca', ['id']);
+
+        // Define field available to be added to fbformrcaskills.
+        $table2 = new xmldb_table('fbformrcaskills');
+        $field = new xmldb_field('available', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '1', 'programme');
+        $field2 = new xmldb_field('upperscore', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '20', 'available');
+
+        // Conditionally launch add field available.
+        if (!$dbman->field_exists($table2, $field)) {
+            $dbman->add_field($table2, $field);
+            $dbman->add_field($table2, $field2);
+        }
+
+        // Fbformrca savepoint reached.
+        upgrade_mod_savepoint(true, 2023122600, 'fbformrca');
+    }
+
+
 
 
     return true;

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="mod/fbformrca/db" VERSION="20231225" COMMENT="XMLDB file for Moodle mod/fbformrca"
+<XMLDB PATH="mod/fbformrca/db" VERSION="20231226" COMMENT="XMLDB file for Moodle mod/fbformrca"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -30,6 +30,8 @@
         <FIELD NAME="skill" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Describes the skill (softskill/hardskill)"/>
         <FIELD NAME="description" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Describes the skill"/>
         <FIELD NAME="programme" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Programme or course."/>
+        <FIELD NAME="available" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Sets the availability for the skill for the teacher to be available or not. Should only be used on a settings page to update all the skills."/>
+        <FIELD NAME="upperscore" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="20" SEQUENCE="false" COMMENT="Sets the upperbounds for scoring for this skillset."/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
@@ -61,7 +63,26 @@
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
         <KEY NAME="fk_instanceid" TYPE="foreign" FIELDS="instanceid" REFTABLE="fbformrca" REFFIELDS="id" COMMENT="The id of the fbformrca instance"/>
-        <KEY NAME="fk_skillsid" TYPE="foreign-unique" FIELDS="skillsid" REFTABLE="fbformrcaskills" REFFIELDS="id" COMMENT="Referencing the id of the the fbformrcaskills table"/>
+        <KEY NAME="fk_skillsid" TYPE="foreign" FIELDS="skillsid" REFTABLE="fbformrcaskills" REFFIELDS="id" COMMENT="Referencing the id of the the fbformrcaskills table"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="fbformrcaskillgrades" COMMENT="Stores the grades per skill, per teacher, per student for each instance (fk).">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="instanceid" TYPE="int" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="instanceid to which this belongs"/>
+        <FIELD NAME="usermodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="studentid" TYPE="int" LENGTH="20" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="selfreflection" TYPE="int" LENGTH="1" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="yes or no, default is false (0)"/>
+        <FIELD NAME="skillid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="fk for skills"/>
+        <FIELD NAME="score" TYPE="int" LENGTH="10" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="the score of the skill."/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="usermodified" TYPE="foreign" FIELDS="usermodified" REFTABLE="user" REFFIELDS="id"/>
+        <KEY NAME="fk_skillid" TYPE="foreign" FIELDS="skillid" REFTABLE="fbformrcaskills" REFFIELDS="id" COMMENT="FK for the skillid"/>
+        <KEY NAME="fk_instanceid" TYPE="foreign" FIELDS="instanceid" REFTABLE="fbformrca" REFFIELDS="id" COMMENT="fk for the instanceid"/>
       </KEYS>
     </TABLE>
   </TABLES>
